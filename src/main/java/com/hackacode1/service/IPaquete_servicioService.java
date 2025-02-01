@@ -14,8 +14,6 @@ public interface IPaquete_servicioService {
 	
 	public void deletePaquete_servicio(UUID id);
 	
-	public void editPaquete_servicio(UUID original_id,Double newPrecio);
 	
-	public void editPaquete_servicio(Paquete_servicio paquete);
 }
 
