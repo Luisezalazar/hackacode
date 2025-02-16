@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hackacode1.dto.MedicoServicioDTO;
+import com.hackacode1.dto.MedicoTurnoDTO;
 import com.hackacode1.model.Medico;
+
 import com.hackacode1.service.IMedicoService;
 
 @RestController
@@ -24,6 +27,13 @@ public class MedicoController {
 	
 	@Autowired
 	IMedicoService medServ;
+	
+	@PostMapping("/guardar")
+	public Medico guardarguardar (@RequestBody MedicoTurnoDTO medico) {
+		Medico newMedico = medServ.guardarMedico(medico);
+		return newMedico;
+		
+	}
 	
 	@GetMapping("/traer")
 	public List<Medico> traerMedicos(){
@@ -45,6 +55,7 @@ public class MedicoController {
 	
 	@PostMapping("/crear")
 	public String crearMedico(@RequestBody Medico medico) {
+		
 		medServ.saveMedico(medico);
 		return "Medico creado con exito";
 	}
@@ -65,10 +76,10 @@ public class MedicoController {
 		return medico;
 	}
 
-	@PutMapping("/editar")
-	public Medico editarMedico(@RequestBody Medico medico) {
-		medServ.editMedico(medico);
-		return medServ.findMedico(medico.getId_persona());
+	
+	@GetMapping("/servicio_con_medicos/{id}")
+	public MedicoServicioDTO getServicioConMedico(@PathVariable UUID id) {
+		return medServ.getServicioMedicoConMedicos(id);
 	}
 }
 

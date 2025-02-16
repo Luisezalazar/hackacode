@@ -1,10 +1,13 @@
 package com.hackacode1.service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
-import com.hackacode1.model.CalendarioDTO;
+import com.hackacode1.dto.CalendarioDTO;
+import com.hackacode1.dto.ConsultasDTO;
+import com.hackacode1.dto.HistorialDTO;
 import com.hackacode1.model.Consulta_medica;
 
 
@@ -12,9 +15,9 @@ import com.hackacode1.model.Consulta_medica;
 public interface IConsulta_medicaService {
 
 	
-	public List<Consulta_medica> getConsultas();
+	public List<ConsultasDTO> getConsultas();
 	
-	public void saveConsulta(Consulta_medica consul);
+	public void saveConsulta(Consulta_medica consul,LocalTime horaTurno);
 	
 	public Consulta_medica findConsulta(UUID id);
 	
@@ -25,4 +28,8 @@ public interface IConsulta_medicaService {
 	public void editConsulta(Consulta_medica consul);
 	
 	public List<CalendarioDTO> getCalendario();
+	
+	public List<HistorialDTO> getConsultasPorPaciente();
+	
+	public List<HistorialDTO> getConsultasPorPacientes(String dni);
 }

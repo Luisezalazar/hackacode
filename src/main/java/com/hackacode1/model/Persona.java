@@ -25,6 +25,7 @@ public class Persona {
 	
 	@Id
 	@GeneratedValue(generator = "UUID")
+	@Column(name="id_persona")
 	private UUID id_persona;
 	
     @Column(nullable = false)
@@ -37,7 +38,7 @@ public class Persona {
 	private String dni;
 	
 	@Column(nullable = false)
-	private LocalDate fecha_nac;
+	private LocalDate fechaNac;
 	
 	@Column(nullable = false)
 	private String email;

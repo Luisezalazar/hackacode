@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,10 +29,13 @@ public class Paquete_servicio {
 	private UUID codigo_paquete;
 	
 	@Column(nullable = false)
-	private Double precio_paquete;
+	private Double precioPaquete;
 
 	@OneToMany
     @JoinColumn(name = "codigo_paquete")  
     private List<Servicio_medico> servicios_medicos;
 
+    @ManyToOne
+    @JoinColumn(name="id_paciente",nullable=false)
+    private Paciente paciente;
 }

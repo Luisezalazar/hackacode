@@ -26,21 +26,23 @@ public class Consulta_medica {
 	 
 	@Id
 	@GeneratedValue(generator = "UUID")
-	private UUID id_consulta_medica;
+	private UUID idConsultaMedica;
+
+    @Column(nullable = false)
+    private LocalDate fechaConsulta;
+
+    @Column(nullable= true)
+    private LocalTime horaTurno;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_turno", nullable = false) 
+    private Turno turno;
+
+    @Column(nullable = false)
+    private Double montoTotal;
 
 	@Column(nullable = false)
-	private LocalDate fecha_consulta;
-	
-	@Column(nullable = false)
-	private LocalTime hora_consulta;
-	
-	@Column(nullable = false)
-	private Double monto_total;
-	
-	@Column(nullable = false)
-	private String pagado_o_no;
-	
-	
+	private String pagadoONo; 
 	
 	 // Relación con un Paciente 
     @ManyToOne
@@ -56,9 +58,4 @@ public class Consulta_medica {
 	@ManyToOne
 	@JoinColumn(name="codigo_paquete", nullable = true)
 	private Paquete_servicio paquete;
-
-	//Un servicio medico
-	@ManyToOne
-	@JoinColumn(name="codigo_servicio", nullable = true)
-	private Servicio_medico servicio;
 }

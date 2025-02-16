@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hackacode1.model.CalendarioDTO;
+import com.hackacode1.dto.CalendarioDTO;
+import com.hackacode1.dto.ConsultasDTO;
+import com.hackacode1.dto.HistorialDTO;
 import com.hackacode1.model.Consulta_medica;
 import com.hackacode1.service.IConsulta_medicaService;
 
@@ -33,8 +35,8 @@ public class Consulta_medicaController {
 	}
 	
 	@GetMapping("/traer")
-	public List<Consulta_medica> getConsultas(){
-		List<Consulta_medica> listaConsultas = consulServ.getConsultas();
+	public List<ConsultasDTO> getConsultas(){
+		List<ConsultasDTO> listaConsultas = consulServ.getConsultas();
 		return listaConsultas;
 	}
 	
@@ -45,16 +47,17 @@ public class Consulta_medicaController {
 	
 	@PostMapping("/crear")
 	public String crearConsulta(@RequestBody Consulta_medica consul) {
-		consulServ.saveConsulta(consul);
+		LocalTime horaTurno = consul.getHoraTurno();
+		consulServ.saveConsulta(consul, horaTurno);
 		return "Consulta creada con exito";
 	}
 	@PutMapping("/edit/{id}")
 	public Consulta_medica editarConsultaMedica(@PathVariable UUID id_original,
-												@RequestParam(required=false, name="fecha_consulta") LocalDate newFecha_consulta,
-												@RequestParam(required=false, name="hora_consulta") LocalTime newHora_consulta,
-												@RequestParam(required=false, name="monto_total") Double newMonto_total,
-												@RequestParam(required=false) String pagado_o_no) {
-		consulServ.editConsulta(id_original, pagado_o_no, newFecha_consulta, newMonto_total, pagado_o_no);
+												@RequestParam(required=false, name="fechaConsulta") LocalDate newFecha_consulta,
+												@RequestParam(required=false, name="horaConsulta") LocalTime newHora_consulta,
+												@RequestParam(required=false, name="montoTotal") Double newMonto_total,
+												@RequestParam(required=false) String pagadoONo) {
+		consulServ.editConsulta(id_original, pagadoONo, newFecha_consulta, newMonto_total, pagadoONo);
 		Consulta_medica consul = consulServ.findConsulta(id_original);
 		return consul;
 									
@@ -63,7 +66,7 @@ public class Consulta_medicaController {
 	@PutMapping("/edit")
 	public Consulta_medica editConsulta(@RequestBody Consulta_medica consul) {
 		consulServ.editConsulta(consul);
-		return consulServ.findConsulta(consul.getId_consulta_medica());
+		return consulServ.findConsulta(consul.getIdConsultaMedica());
 	}
 	
 	@DeleteMapping("/delete/{id}")
@@ -72,7 +75,10 @@ public class Consulta_medicaController {
 		return "Consulta borrada con exito";
 	}
 	
-	
+	@GetMapping("/historial/{dni}")
+	public List<HistorialDTO> getConsultasPorPaciente(@PathVariable String dni){
+		return consulServ.getConsultasPorPacientes(dni);
+	}
 	
 }
 

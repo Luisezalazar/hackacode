@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import com.hackacode1.dto.MedicoServicioDTO;
+import com.hackacode1.dto.MedicoTurnoDTO;
 import com.hackacode1.model.Medico;
 
 public interface IMedicoService {
@@ -18,5 +20,9 @@ public List<Medico> getMedico();
 	
 	public void editMedico(UUID original_id,String newEspecialidad_medica, Double newSueldo, String newNombre, String newApellido, String newDni, LocalDate newFecha_nac, String newEmail, String newTelefono, String newDireccion);
 	
-	public void editMedico(Medico Medico);
+	public void editMedicoo(Medico medico);
+	
+	public MedicoServicioDTO getServicioMedicoConMedicos(UUID servicio_id);
+	
+	public Medico guardarMedico(MedicoTurnoDTO dto);
 }

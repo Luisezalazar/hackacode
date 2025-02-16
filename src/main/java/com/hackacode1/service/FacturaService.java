@@ -38,11 +38,11 @@ public class FacturaService implements IFacturaService{
 
     public void editFactura(UUID id, LocalDate newFechaEmision, LocalDate newFechaVencimiento, Double newMontoTotal, String newMoneda, String newFormaPago, String newEstado, Double newDescuento, Double newIva){
         Factura factura = this.getFactura(id);
-        factura.setFecha_emision(newFechaEmision);
-        factura.setFecha_vencimiento(newFechaVencimiento);
-        factura.setMonto_total(newMontoTotal);
+        factura.setFechaEmision(newFechaEmision);
+        factura.setFechaVencimiento(newFechaVencimiento);
+        factura.setMontoTotal(newMontoTotal);
         factura.setMoneda(newMoneda);
-        factura.setForma_pago(newFormaPago);
+        factura.setFormaPago(newFormaPago);
         factura.setEstado(newEstado);
         factura.setDescuento(newDescuento);
         factura.setIva(newIva);

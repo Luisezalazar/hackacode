@@ -26,19 +26,19 @@ public class Factura {
     private UUID numeroFactura;
 
     @Column(nullable = false)
-    private LocalDate fecha_emision;
+    private LocalDate fechaEmision;
 
     @Column(nullable = false)
-    private LocalDate fecha_vencimiento;
+    private LocalDate fechaVencimiento;
 
     @Column(nullable = false)
-    private Double monto_total;
+    private Double montoTotal;
     
     @Column(nullable = false)
     private String moneda;
 
     @Column(nullable = false)
-    private String forma_pago;
+    private String formaPago;
 
     @Column(nullable = false)
     private String estado;
@@ -54,10 +54,6 @@ public class Factura {
 	@JoinColumn(name="codigo_paquete", nullable = true)
 	private Paquete_servicio paquete;
 
-	//Un servicio medico
-	@ManyToOne
-	@JoinColumn(name="codigo_servicio", nullable = true)
-	private Servicio_medico servicio;
 
     
 }

@@ -57,7 +57,7 @@ public class PersonalService implements IPersonalService{
 		perso.setNombre(newNombre);
 		perso.setApellido(newApellido);
 		perso.setDni(newDni);
-		perso.setFecha_nac(newFecha_nac);
+		perso.setFechaNac(newFecha_nac);
 		perso.setEmail(newEmail);
 		perso.setTelefono(newTelefono);
 		perso.setDireccion(newDireccion);

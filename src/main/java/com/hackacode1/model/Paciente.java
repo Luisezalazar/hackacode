@@ -15,6 +15,6 @@ import lombok.Setter;
 @Entity
 public class Paciente extends Persona{
 	@Column(nullable = false)
-	private Boolean obra_social;
+	private Boolean obraSocial;
 
 }

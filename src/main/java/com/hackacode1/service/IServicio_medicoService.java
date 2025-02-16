@@ -18,4 +18,6 @@ public interface IServicio_medicoService {
 	public void editServicio_medico(UUID original_id,String newNombre, String newDescripcion, Double newPrecio);
 	
 	public void editServicio_medico(Servicio_medico servicio);
+	
+	
 }

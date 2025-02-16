@@ -1,0 +1,19 @@
+services:
+  hackacode1:
+    build: hackacode1-ee
+    mem_limit: 2048m
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:mysql://catwebs:3306/catwebs?createDatabaseIfNotExist=true&serverTimezone=UTC # Puerto 3306
+      DB_USER_NAME: root
+      DB_PASSWORD: 123456
+    restart: always
+  catwebs:
+    image: mariadb:10.4.32
+    ports:
+      - "3307:3306"
+    environment: 
+      MYSQL_DATABASE: catwebs
+      MYSQL_ROOT_PASSWORD: 123456
+    restart: always

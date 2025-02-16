@@ -1,5 +1,6 @@
 package com.hackacode1.model;
 
+import java.time.LocalTime;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -32,6 +33,10 @@ public class Servicio_medico {
 	
 	@Column(nullable = false)
 	private Double precio;
+	
+	@Column(nullable= false)
+	private LocalTime duracion;
+	
 	
 }
 

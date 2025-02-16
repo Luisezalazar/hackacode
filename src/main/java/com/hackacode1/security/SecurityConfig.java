@@ -43,7 +43,7 @@ public class SecurityConfig {
 				.cors(Customizer.withDefaults())
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/personal/login").permitAll()
-						.anyRequest().permitAll())
+						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.httpBasic(Customizer.withDefaults())
 				.build();
@@ -66,7 +66,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowedOrigins(List.of("http:/localhost"));//Cambiar cuando se suma a un servicio
+		config.setAllowedOrigins(List.of("https://clinicajs.vercel.app"));//Cambiar cuando se suma a un servicio
 		config.setAllowedMethods(List.of("GET","POST","PUT","DELETE")); //Añadir otro metodo si es necesario
 		config.setAllowCredentials(true);
 		config.addAllowedHeader("*");

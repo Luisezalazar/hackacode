@@ -52,11 +52,11 @@ public class PacienteService implements IPacienteService{
 			String newDni, LocalDate newFecha_nac, String newEmail, String newTelefono, String newDireccion) {
 
 		Paciente paciente = this.findPaciente(original_id);
-		paciente.setObra_social(newObra_social);
+		paciente.setObraSocial(newObra_social);
 		paciente.setNombre(newNombre);
 		paciente.setApellido(newApellido);
 		paciente.setDni(newDni);	
-		paciente.setFecha_nac(newFecha_nac);
+		paciente.setFechaNac(newFecha_nac);
 		paciente.setEmail(newEmail);
 		paciente.setTelefono(newTelefono);	
 		paciente.setDireccion(newDireccion);	
