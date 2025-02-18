@@ -48,7 +48,7 @@ public class Consulta_medicaController {
 	@PostMapping("/crear")
 	public String crearConsulta(@RequestBody Consulta_medica consul) {
 		LocalTime horaTurno = consul.getHoraTurno();
-		consulServ.saveConsulta(consul, horaTurno);
+		//consulServ.saveConsulta(consul, horaTurno);
 		return "Consulta creada con exito";
 	}
 	@PutMapping("/edit/{id}")

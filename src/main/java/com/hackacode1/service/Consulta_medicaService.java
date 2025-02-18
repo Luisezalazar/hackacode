@@ -100,7 +100,7 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	    }
 	    Optional<Turno> turno  = turnoRepo.findById(consul.getTurno().getId_turno());
 	    //consul.setHoraTurno(LocalTime.parse(turno.get().getUltimaHoraOcupada()));
-	    turnoServ.ocuparHora(turno.get().getId_turno(),paqueteOpt.get().getServicios_medicos().get(0), consul.getHoraTurno());
+	    //turnoServ.ocuparHora(turno.get().getId_turno(),paqueteOpt.get().getServicios_medicos().get(0), consul.getHoraTurno());
 	    consulRepo.save(consul);
 	}
 
