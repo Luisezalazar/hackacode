@@ -87,14 +87,11 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 
 	
 	@Override
-	public void saveConsulta(Consulta_medica consul, LocalTime horaTurno) {
+	public void saveConsulta(Consulta_medica consul) {
 	    // Verificar si la consulta tiene un paquete y obtenerlo si existe
 	    Optional<Paquete_servicio> paqueteOpt = Optional.ofNullable(consul.getPaquete())
 	        .map(paquete -> paqueteRepo.findById(paquete.getCodigo_paquete()))
 	        .orElse(Optional.empty());
-
-	    
-
 	    // Asignar el monto total basado en lo que trae la consulta
 	    if (paqueteOpt.isPresent()) {
 	        consul.setMontoTotal(paqueteOpt.get().getPrecioPaquete()); // Si tiene paquete, usa su precio
@@ -102,7 +99,8 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	        consul.setMontoTotal(null); // Si no hay paquete ni servicio
 	    }
 	    Optional<Turno> turno  = turnoRepo.findById(consul.getTurno().getId_turno());
-	    consul.setHoraTurno(LocalTime.parse(turno.get().getUltimaHoraOcupada()));
+	    //consul.setHoraTurno(LocalTime.parse(turno.get().getUltimaHoraOcupada()));
+	    turnoServ.ocuparHora(turno.get().getId_turno(),paqueteOpt.get().getServicios_medicos().get(0), consul.getHoraTurno());
 	    consulRepo.save(consul);
 	}
 
