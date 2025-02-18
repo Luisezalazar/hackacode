@@ -67,7 +67,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowedOrigins(List.of("https://clinicajs.vercel.app"));//Cambiar cuando se suma a un servicio
-		config.setAllowedMethods(List.of("GET","POST","PUT","DELETE")); //Añadir otro metodo si es necesario
+		config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS")); //Añadir otro metodo si es necesario
 		config.setAllowCredentials(true);
 		config.addAllowedHeader("*");
 		UrlBasedCorsConfigurationSource source =new  UrlBasedCorsConfigurationSource();
