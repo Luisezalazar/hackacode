@@ -38,4 +38,8 @@ public class Paquete_servicio {
     @ManyToOne
     @JoinColumn(name="id_paciente",nullable=false)
     private Paciente paciente;
+    
+    @OneToMany
+    @JoinColumn(name= "idConsultaMedica")
+    private List<Consulta_medica> consulta;
 }

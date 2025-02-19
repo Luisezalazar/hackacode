@@ -8,6 +8,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,4 +47,10 @@ public class Turno {
 	private Boolean descanso;
 	private DayOfWeek diaSemana;
 	
+	@Column(nullable=false)
+	private int numeroDia;
+	
+	@ManyToOne
+    @JoinColumn(name = "medico_id")
+    private Medico medico;
 }

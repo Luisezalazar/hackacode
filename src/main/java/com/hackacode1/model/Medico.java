@@ -2,6 +2,7 @@ package com.hackacode1.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -27,7 +28,7 @@ public class Medico extends Persona{
 	@Column(nullable = false)
 	private Double sueldo;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Turno> listaTurno;
 	
 	@ManyToMany

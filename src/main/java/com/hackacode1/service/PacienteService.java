@@ -65,4 +65,10 @@ public class PacienteService implements IPacienteService{
 		
 	}
 
+	@Override
+	public Paciente findPacienteDni(String dni) {
+		return pacienRepo.findByPacienteIdPersona(dni);
+		
+	}
+
 }

@@ -19,4 +19,6 @@ public interface IPacienteService {
 	public void editPaciente(UUID original_id,Boolean newObra_social,String newNombre, String newApellido, String newDni, LocalDate newFecha_nac, String newEmail, String newTelefono, String newDireccion);
 	
 	public void editPaciente(Paciente pacien);
+	
+	public Paciente findPacienteDni(String dni);
 }

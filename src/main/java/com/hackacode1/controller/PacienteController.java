@@ -36,6 +36,11 @@ public class PacienteController {
 		return pacienServ.findPaciente(id);
 	}
 	
+	@GetMapping("buscar/{dni}")
+	public Paciente buscarPacienteDni(@PathVariable String dni) {
+		return pacienServ.findPacienteDni(dni);
+	}
+	
 	@DeleteMapping("/borrar/{id}")
 	public String borrarPaciente(@PathVariable UUID id) {
 		pacienServ.deletePaciente(id);

@@ -42,6 +42,8 @@ public class MedicoService implements IMedicoService{
 	public void saveMedico(Medico medico) {
 		for(Turno t : medico.getListaTurno()) {
 			t.setHoraBloque(turnServ.setBloqueTurnos(t));
+			  
+			
 		}
 		mediRepo.save(medico);
 	}
@@ -86,7 +88,7 @@ public class MedicoService implements IMedicoService{
 		
 		List<MedicoDTO> medicosServicios = medicos.stream()
 				.filter(medico -> medico.getServiciosMedicos().contains(servicio))
-				.map(medico -> new MedicoDTO(medico.getId_persona(), medico.getNombre(), medico.getApellido()))
+				.map(medico -> new MedicoDTO(medico.getId_persona(), medico.getNombre(), medico.getApellido(),medico.getListaTurno()))
 				.collect(Collectors.toList());
 		return new MedicoServicioDTO(servicio.getNombre(), servicio.getPrecio(),medicosServicios);
 		}
@@ -112,8 +114,10 @@ public class MedicoService implements IMedicoService{
 		medico.setDireccion(dto.getDireccion());
 		medico.setEspecialidadMedica(dto.getEspecialidadMedica());
 		medico.setSueldo(dto.getSueldo());
+		
 		//Guardar medico primero para agarrar id
 		medico = mediRepo.save(medico);
+		
 		//Convertir los turnos del dto a entidad para asignar al médico
 		List<Turno> turnos = dto.getTurnos().stream().map(turnoDTO -> {
 			Turno turno = new Turno();

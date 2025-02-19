@@ -2,7 +2,6 @@ package com.hackacode1.service;
 
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -98,7 +97,13 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	    } else {
 	        consul.setMontoTotal(null); // Si no hay paquete ni servicio
 	    }
-	    Optional<Turno> turno  = turnoRepo.findById(consul.getTurno().getId_turno());
+	    Optional<Turno> turnoOpt = turnoRepo.findById(consul.getTurno().getId_turno());
+	    if (!turnoOpt.isPresent()) {
+	        throw new EntityNotFoundException("No se encontró el turno asociado");
+	    }
+	    Turno turno = turnoOpt.get();
+	    
+	    
 	    //consul.setHoraTurno(LocalTime.parse(turno.get().getUltimaHoraOcupada()));
 	    //turnoServ.ocuparHora(turno.get().getId_turno(),paqueteOpt.get().getServicios_medicos().get(0), consul.getHoraTurno());
 	    consulRepo.save(consul);
