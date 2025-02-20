@@ -31,8 +31,7 @@ public class MedicoController {
 	@PostMapping("/guardar")
 	public Medico guardarguardar (@RequestBody MedicoTurnoDTO medico) {
 		Medico newMedico = medServ.guardarMedico(medico);
-		return newMedico;
-		
+		return newMedico;	
 	}
 	
 	@GetMapping("/traer")
@@ -55,7 +54,6 @@ public class MedicoController {
 	
 	@PostMapping("/crear")
 	public String crearMedico(@RequestBody Medico medico) {
-		
 		medServ.saveMedico(medico);
 		return "Medico creado con exito";
 	}

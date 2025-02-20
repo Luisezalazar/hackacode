@@ -10,7 +10,7 @@ public interface IPacienteService {
 	
 	public List<Paciente> getPaciente();
 	
-	public void savePaciente(Paciente pacien);
+	public Paciente savePaciente(Paciente pacien);
 	
 	public Paciente findPaciente(UUID id);
 	

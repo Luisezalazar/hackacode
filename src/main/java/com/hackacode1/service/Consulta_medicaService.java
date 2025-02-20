@@ -2,6 +2,7 @@ package com.hackacode1.service;
 
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +17,9 @@ import com.hackacode1.dto.HistorialDTO;
 import com.hackacode1.model.Consulta_medica;
 import com.hackacode1.model.Paquete_servicio;
 import com.hackacode1.model.Servicio_medico;
-import com.hackacode1.model.Turno;
 import com.hackacode1.repository.IConsulta_medicaRepository;
+import com.hackacode1.repository.IMedicoRepository;
+import com.hackacode1.repository.IPacienteRepository;
 import com.hackacode1.repository.IPaquete_servicioRepository;
 import com.hackacode1.repository.IServicio_medicoRepository;
 import com.hackacode1.repository.ITurnoRepository;
@@ -41,7 +43,10 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	ITurnoRepository turnoRepo;
 	@Autowired
 	ITurnoService turnoServ;
-	
+	@Autowired
+	IPacienteRepository pacienteRepo;
+	@Autowired
+	IMedicoRepository medicoRepo;
 	
 	@Override
 	public List<ConsultasDTO> getConsultas() {
@@ -51,7 +56,7 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		for(Consulta_medica consul: listaConsultas) {
 			
 			ConsultasDTO dto = new ConsultasDTO();
-			dto.setFechaConsulta(consul.getFechaConsulta());
+			dto.setFechaConsulta(consul.getFechaTurno());
 			dto.setHoraTurno(consul.getHoraTurno());
 			dto.setMontoTotal(consul.getMontoTotal());
 			dto.setPagadoONo(consul.getPagadoONo());
@@ -86,28 +91,24 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 
 	
 	@Override
-	public void saveConsulta(Consulta_medica consul) {
+	public void saveConsulta(Consulta_medica consul, LocalTime horaTurno, LocalDate fechaTurno ) {
 	    // Verificar si la consulta tiene un paquete y obtenerlo si existe
 	    Optional<Paquete_servicio> paqueteOpt = Optional.ofNullable(consul.getPaquete())
 	        .map(paquete -> paqueteRepo.findById(paquete.getCodigo_paquete()))
 	        .orElse(Optional.empty());
+	    
 	    // Asignar el monto total basado en lo que trae la consulta
 	    if (paqueteOpt.isPresent()) {
 	        consul.setMontoTotal(paqueteOpt.get().getPrecioPaquete()); // Si tiene paquete, usa su precio
 	    } else {
 	        consul.setMontoTotal(null); // Si no hay paquete ni servicio
 	    }
-	    Optional<Turno> turnoOpt = turnoRepo.findById(consul.getTurno().getId_turno());
-	    if (!turnoOpt.isPresent()) {
-	        throw new EntityNotFoundException("No se encontró el turno asociado");
-	    }
-	    Turno turno = turnoOpt.get();
+	    	consul.setHoraTurno(horaTurno);
+	    	consul.setFechaTurno(fechaTurno);
 	    
 	    
-	    //consul.setHoraTurno(LocalTime.parse(turno.get().getUltimaHoraOcupada()));
-	    //turnoServ.ocuparHora(turno.get().getId_turno(),paqueteOpt.get().getServicios_medicos().get(0), consul.getHoraTurno());
-	    consulRepo.save(consul);
-	}
+	    	consulRepo.save(consul);
+	}	
 
 	@Override
 	public Consulta_medica findConsulta(UUID id) {
@@ -125,8 +126,8 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	public void editConsulta(UUID original_id, String newfecha_consulta, LocalDate newHora_consulta,
 							Double newMonto_total, String newPagado_o_no) {
 		Consulta_medica consul = this.findConsulta(original_id);
-		consul.setFechaConsulta(newHora_consulta);
-		consul.setFechaConsulta(newHora_consulta);
+		consul.setFechaTurno(newHora_consulta);
+		//Arreglar fechaTurno
 		consul.setMontoTotal(newMonto_total);
 		consul.setPagadoONo(newPagado_o_no);
 		consulRepo.save(consul);
@@ -144,7 +145,7 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		List<CalendarioDTO> listaResultado = new ArrayList<>();
 		for(Consulta_medica consul : listaConsultas) {
 			CalendarioDTO dto = new CalendarioDTO();
-			dto.setFecha_consulta(consul.getFechaConsulta());
+			//dto.getFecha_consulta(consul.getFechaTurno());
 			
 			dto.setMedico(consul.getMedico().getNombre());
 			dto.setPaciente(consul.getPaciente().getNombre());
@@ -160,7 +161,7 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		List<HistorialDTO> histo = new ArrayList<>();
 		for(Consulta_medica consul : listaConsultas) {
 			HistorialDTO dto = new HistorialDTO();
-			dto.setFechaConsulta(consul.getFechaConsulta());
+			dto.setFechaConsulta(consul.getFechaTurno());
 			
 			dto.setMontoTotal(consul.getMontoTotal());
 			dto.setPagadoONo(consul.getPagadoONo());
@@ -195,7 +196,7 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		        .map(consulta -> {
 		 // Crear DTO
 		 HistorialDTO dto = new HistorialDTO(
-		                consulta.getFechaConsulta(),
+		                consulta.getFechaTurno(),
 		                consulta.getMontoTotal(),
 		                consulta.getPagadoONo(),
 		                consulta.getMedico().getNombre(),
@@ -216,8 +217,9 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		      })
 		        .collect(Collectors.toList());
 		}
+	}
 			
-		}
+		
 		
 
 

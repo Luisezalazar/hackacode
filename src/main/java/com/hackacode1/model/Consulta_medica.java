@@ -2,17 +2,16 @@ package com.hackacode1.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,14 +31,16 @@ public class Consulta_medica {
 	private UUID idConsultaMedica;
 
     @Column(nullable = false)
-    private LocalDate fechaConsulta;
-
+    @JsonProperty("fechaTurno")
+    private LocalDate fechaTurno;
+    
+    @JsonProperty("horaTurno")
     @Column(nullable= true)
     private LocalTime horaTurno;
     
-    @ManyToOne
-    @JoinColumn(name = "id_turno", nullable = false) 
-    private Turno turno;
+    //@ManyToOne
+    //@JoinColumn(name = "id_turno", nullable = false) 
+    //private Turno turno;
 
     @Column(nullable = false)
     private Double montoTotal;
@@ -47,16 +48,16 @@ public class Consulta_medica {
 	@Column(nullable = false)
 	private String pagadoONo; 
 	
-	// Relación con un Paciente 
+	//Relación con un Paciente 
     @ManyToOne
     @JoinColumn(name = "id_paciente", referencedColumnName = "id_persona", nullable = false)
     private Paciente paciente;
 
-    // Relación con un Medico 
+    //Relación con un Medico 
     @ManyToOne
     @JoinColumn(name = "id_medico", referencedColumnName = "id_persona", nullable = false)
     private Medico medico;
-	
+
 	//Un paquete de servicios
 	@ManyToOne
 	@JoinColumn(name="codigo_paquete", nullable = true)

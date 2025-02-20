@@ -3,6 +3,7 @@ package com.hackacode1.model;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
@@ -35,11 +36,11 @@ public class Paquete_servicio {
     @JoinColumn(name = "codigo_paquete")  
     private List<Servicio_medico> servicios_medicos;
 
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Consulta_medica> consultas;
+    
     @ManyToOne
     @JoinColumn(name="id_paciente",nullable=false)
     private Paciente paciente;
     
-    @OneToMany
-    @JoinColumn(name= "idConsultaMedica")
-    private List<Consulta_medica> consulta;
 }

@@ -35,5 +35,4 @@ public class Servicio_consulta {
 
     @Column(nullable = true)
     private LocalTime horaTurno;
-
 }

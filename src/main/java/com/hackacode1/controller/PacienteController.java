@@ -48,9 +48,8 @@ public class PacienteController {
 	}
 	
 	@PostMapping("/crear")
-	public String crearPaciente(@RequestBody Paciente paciente) {
-		pacienServ.savePaciente(paciente);
-		return "Paciente creado con exito";
+	public Paciente crearPaciente(@RequestBody Paciente paciente) {
+		return pacienServ.savePaciente(paciente);
 		
 	}
 	

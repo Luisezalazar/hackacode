@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.hackacode1.dto.CalendarioDTO;
 import com.hackacode1.dto.ConsultasDTO;
 import com.hackacode1.dto.HistorialDTO;
@@ -47,8 +46,9 @@ public class Consulta_medicaController {
 	
 	@PostMapping("/crear")
 	public String crearConsulta(@RequestBody Consulta_medica consul) {
-		LocalTime horaTurno = consul.getHoraTurno();
-		//consulServ.saveConsulta(consul, horaTurno);
+		
+		consulServ.saveConsulta(consul, consul.getHoraTurno(), consul.getFechaTurno());
+		
 		return "Consulta creada con exito";
 	}
 	@PutMapping("/edit/{id}")

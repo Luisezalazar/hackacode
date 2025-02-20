@@ -17,7 +17,7 @@ public interface IConsulta_medicaService {
 	
 	public List<ConsultasDTO> getConsultas();
 	
-	public void saveConsulta(Consulta_medica consul);
+	public void saveConsulta(Consulta_medica consul, LocalTime horaTurno, LocalDate fechaTurno);
 	
 	public Consulta_medica findConsulta(UUID id);
 	
@@ -32,4 +32,6 @@ public interface IConsulta_medicaService {
 	public List<HistorialDTO> getConsultasPorPaciente();
 	
 	public List<HistorialDTO> getConsultasPorPacientes(String dni);
+	
+	
 }
