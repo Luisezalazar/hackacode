@@ -51,6 +51,8 @@ public class Consulta_medicaController {
 		
 		return "Consulta creada con exito";
 	}
+	
+	
 	@PutMapping("/edit/{id}")
 	public Consulta_medica editarConsultaMedica(@PathVariable UUID id_original,
 												@RequestParam(required=false, name="fechaConsulta") LocalDate newFecha_consulta,

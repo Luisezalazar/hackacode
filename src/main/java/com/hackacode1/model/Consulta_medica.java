@@ -37,14 +37,7 @@ public class Consulta_medica {
     @JsonProperty("horaTurno")
     @Column(nullable= true)
     private LocalTime horaTurno;
-    
-    //@ManyToOne
-    //@JoinColumn(name = "id_turno", nullable = false) 
-    //private Turno turno;
-
-    @Column(nullable = false)
-    private Double montoTotal;
-
+ 
 	@Column(nullable = false)
 	private String pagadoONo; 
 	
@@ -58,8 +51,4 @@ public class Consulta_medica {
     @JoinColumn(name = "id_medico", referencedColumnName = "id_persona", nullable = false)
     private Medico medico;
 
-	//Un paquete de servicios
-	@ManyToOne
-	@JoinColumn(name="codigo_paquete", nullable = true)
-	private Paquete_servicio paquete;
 }

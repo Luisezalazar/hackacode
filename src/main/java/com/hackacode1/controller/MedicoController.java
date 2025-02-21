@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hackacode1.dto.MedicoServicioDTO;
-import com.hackacode1.dto.MedicoTurnoDTO;
 import com.hackacode1.model.Medico;
 
 import com.hackacode1.service.IMedicoService;
@@ -28,11 +27,6 @@ public class MedicoController {
 	@Autowired
 	IMedicoService medServ;
 	
-	@PostMapping("/guardar")
-	public Medico guardarguardar (@RequestBody MedicoTurnoDTO medico) {
-		Medico newMedico = medServ.guardarMedico(medico);
-		return newMedico;	
-	}
 	
 	@GetMapping("/traer")
 	public List<Medico> traerMedicos(){

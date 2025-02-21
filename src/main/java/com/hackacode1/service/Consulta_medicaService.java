@@ -58,7 +58,7 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 			ConsultasDTO dto = new ConsultasDTO();
 			dto.setFechaConsulta(consul.getFechaTurno());
 			dto.setHoraTurno(consul.getHoraTurno());
-			dto.setMontoTotal(consul.getMontoTotal());
+			
 			dto.setPagadoONo(consul.getPagadoONo());
 			
 			if(consul.getPaciente()!=null) {
@@ -105,7 +105,7 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	    }
 	    	consul.setHoraTurno(horaTurno);
 	    	consul.setFechaTurno(fechaTurno);
-	    
+	    	
 	    
 	    	consulRepo.save(consul);
 	}	

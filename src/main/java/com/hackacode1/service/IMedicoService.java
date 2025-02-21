@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import com.hackacode1.dto.MedicoServicioDTO;
-import com.hackacode1.dto.MedicoTurnoDTO;
 import com.hackacode1.model.Medico;
 
 public interface IMedicoService {
@@ -24,5 +23,4 @@ public List<Medico> getMedico();
 	
 	public MedicoServicioDTO getServicioMedicoConMedicos(UUID servicio_id);
 	
-	public Medico guardarMedico(MedicoTurnoDTO dto);
 }
