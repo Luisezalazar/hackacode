@@ -55,11 +55,11 @@ public class Consulta_medicaController {
 	
 	@PutMapping("/edit/{id}")
 	public Consulta_medica editarConsultaMedica(@PathVariable UUID id_original,
-												@RequestParam(required=false, name="fechaConsulta") LocalDate newFecha_consulta,
-												@RequestParam(required=false, name="horaConsulta") LocalTime newHora_consulta,
-												@RequestParam(required=false, name="montoTotal") Double newMonto_total,
-												@RequestParam(required=false) String pagadoONo) {
-		consulServ.editConsulta(id_original, pagadoONo, newFecha_consulta, newMonto_total, pagadoONo);
+												@RequestParam (required=false, name="fechaConsulta") LocalDate newFechaConsulta,
+												@RequestParam (required=false, name="horaConsulta") LocalTime newHoraConsulta,
+												@RequestParam (required=false, name="montoTotal") Double newMontoTotal,
+												@RequestParam (required=false) String pagadoONo) {
+		consulServ.editConsulta(id_original, pagadoONo, newFechaConsulta, newMontoTotal, pagadoONo);
 		Consulta_medica consul = consulServ.findConsulta(id_original);
 		return consul;
 									

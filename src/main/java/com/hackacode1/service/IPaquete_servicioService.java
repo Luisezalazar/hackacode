@@ -14,9 +14,9 @@ public interface IPaquete_servicioService {
 	
 	public void deletePaquete_servicio(UUID id);
 	
-	public void replaceServicio(UUID paqueteID, UUID deleteServicio, UUID newServicio);
+	public Paquete_servicio replaceServicio(UUID paqueteID, UUID deleteServicio, UUID newServicio);
 	
-	public void addPaquete_servicio(UUID newPaquete, UUID newServicio);
+	public Paquete_servicio addPaquete_servicio(UUID newPaquete, UUID newServicio);
 	
 	public void editPaquete_servicio(Paquete_servicio paquete);
 }

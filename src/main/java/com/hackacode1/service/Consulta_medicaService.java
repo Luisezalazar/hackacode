@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import com.hackacode1.dto.ConsultaPaqueteDTO;
 import com.hackacode1.dto.ConsultasDTO;
 import com.hackacode1.dto.HistorialDTO;
 import com.hackacode1.model.Consulta_medica;
-import com.hackacode1.model.Paquete_servicio;
-import com.hackacode1.model.Servicio_medico;
 import com.hackacode1.repository.IConsulta_medicaRepository;
 import com.hackacode1.repository.IMedicoRepository;
 import com.hackacode1.repository.IPacienteRepository;
@@ -69,19 +66,17 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 			if(consul.getMedico()!=null) {
 			dto.setNombreMedico(consul.getMedico().getNombre());
 			dto.setApellidoMedico(consul.getMedico().getApellido());
-			} else throw new EntityNotFoundException("No se encontraron mediso para agregar");
+			} else throw new EntityNotFoundException("No se encontraron medico para agregar");
 			
 			
-			List<ConsultaPaqueteDTO> listaPaquetes= new ArrayList<>();
-			if(consul.getPaquete() != null && consul.getPaquete().getServicios_medicos() !=null) {
-				for(Servicio_medico servicio : consul.getPaquete().getServicios_medicos()) {
-					ConsultaPaqueteDTO paqdto = new ConsultaPaqueteDTO();
-					paqdto.setNombreServicio(servicio.getNombre());
-					paqdto.setDescripcion(servicio.getDescripcion());
-					listaPaquetes.add(paqdto);
-				}
-			} else throw new EntityNotFoundException("No se encontró un paquete y/o servicios");
-			
+			 List<ConsultaPaqueteDTO> listaPaquetes = new ArrayList<>();
+		        if (consul.getServicio() != null) { // Verifica solo el servicio
+		            ConsultaPaqueteDTO paqdto = new ConsultaPaqueteDTO();
+		            paqdto.setNombreServicio(consul.getServicio().getNombre());
+		            paqdto.setDescripcion(consul.getServicio().getDescripcion());
+		            listaPaquetes.add(paqdto);
+		        }
+			 else throw new EntityNotFoundException("No se encontraron servicios");
 			
 			dto.setNombrePaquetes(listaPaquetes);
 			listaResultado.add(dto);
@@ -92,20 +87,9 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	
 	@Override
 	public void saveConsulta(Consulta_medica consul, LocalTime horaTurno, LocalDate fechaTurno ) {
-	    // Verificar si la consulta tiene un paquete y obtenerlo si existe
-	    Optional<Paquete_servicio> paqueteOpt = Optional.ofNullable(consul.getPaquete())
-	        .map(paquete -> paqueteRepo.findById(paquete.getCodigo_paquete()))
-	        .orElse(Optional.empty());
 	    
-	    // Asignar el monto total basado en lo que trae la consulta
-	    if (paqueteOpt.isPresent()) {
-	        consul.setMontoTotal(paqueteOpt.get().getPrecioPaquete()); // Si tiene paquete, usa su precio
-	    } else {
-	        consul.setMontoTotal(null); // Si no hay paquete ni servicio
-	    }
 	    	consul.setHoraTurno(horaTurno);
 	    	consul.setFechaTurno(fechaTurno);
-	    	
 	    
 	    	consulRepo.save(consul);
 	}	
@@ -128,7 +112,6 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		Consulta_medica consul = this.findConsulta(original_id);
 		consul.setFechaTurno(newHora_consulta);
 		//Arreglar fechaTurno
-		consul.setMontoTotal(newMonto_total);
 		consul.setPagadoONo(newPagado_o_no);
 		consulRepo.save(consul);
 				
@@ -157,65 +140,79 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 
 	@Override
 	public List<HistorialDTO> getConsultasPorPaciente() {
-		List<Consulta_medica> listaConsultas = consulRepo.findAll();
-		List<HistorialDTO> histo = new ArrayList<>();
-		for(Consulta_medica consul : listaConsultas) {
-			HistorialDTO dto = new HistorialDTO();
-			dto.setFechaConsulta(consul.getFechaTurno());
-			
-			dto.setMontoTotal(consul.getMontoTotal());
-			dto.setPagadoONo(consul.getPagadoONo());
-			dto.setNombreMedico(consul.getMedico().getNombre());
-			//Setear el nombre de los servicios teniendo en cuenta todo lo que tiene el paquete
-			List<ConsultaPaqueteDTO> listaPaquetes= new ArrayList<>();
-			if(consul.getPaquete() != null && consul.getPaquete().getServicios_medicos() !=null) {
-				for(Servicio_medico servicio : consul.getPaquete().getServicios_medicos()) {
-					ConsultaPaqueteDTO paqdto = new ConsultaPaqueteDTO();
-					paqdto.setNombreServicio(servicio.getNombre());
-					paqdto.setDescripcion(servicio.getDescripcion());
-					listaPaquetes.add(paqdto);
-				}
-			} else throw new EntityNotFoundException("No se encontró un paquete y/o servicios");
-			
-			
-			dto.setNombrePaquetes(listaPaquetes);
-			//
-			dto.setNombrePaciente(consul.getPaciente().getNombre());
-			histo.add(dto);
-			
-		}
-		return histo;
+		 List<Consulta_medica> listaConsultas = consulRepo.findAll();
+		 List<HistorialDTO> histo = new ArrayList<>();
+
+		 for (Consulta_medica consul : listaConsultas) {
+
+		     HistorialDTO dto = new HistorialDTO();
+		     dto.setFechaConsulta(consul.getFechaTurno());
+		     dto.setPagadoONo(consul.getPagadoONo());
+
+		 // Manejo de Medico
+		   if (consul.getMedico() != null) {
+		       dto.setNombreMedico(consul.getMedico().getNombre());
+		   } else {
+		       dto.setNombreMedico("Médico no encontrado"); // O lanza una excepción
+		   }
+
+		 // Manejo de Servicios Médicos
+		   List<ConsultaPaqueteDTO> listaPaquetes = new ArrayList<>();
+		   if (consul.getServicio() != null) {
+		      ConsultaPaqueteDTO paqdto = new ConsultaPaqueteDTO();
+		      paqdto.setNombreServicio(consul.getServicio().getNombre());
+		      paqdto.setDescripcion(consul.getServicio().getDescripcion());
+		      listaPaquetes.add(paqdto);
+		        }
+
+		        dto.setNombrePaquetes(listaPaquetes);
+
+		   // Manejo de Paciente
+		   if (consul.getPaciente() != null) {
+		       dto.setNombrePaciente(consul.getPaciente().getNombre());
+		    } else {
+		      dto.setNombrePaciente("Paciente no encontrado"); // O lanza una excepción
+		    }
+
+		    histo.add(dto);
+		    }
+		    return histo;
 		
 		}
 
 	@Override
 	public List<HistorialDTO> getConsultasPorPacientes(String dni) {
-		 // Buscar todas las consultas médicas
-		 List<Consulta_medica> consultas = consulRepo.findByPacienteIdPersona(dni);
-		 return consultas.stream()
-		        .map(consulta -> {
-		 // Crear DTO
-		 HistorialDTO dto = new HistorialDTO(
-		                consulta.getFechaTurno(),
-		                consulta.getMontoTotal(),
-		                consulta.getPagadoONo(),
-		                consulta.getMedico().getNombre(),
-		                consulta.getPaciente().getNombre(),
-		                new ArrayList<>()
-		  );
+		// 1. Buscar las consultas médicas por DNI del paciente
+	    List<Consulta_medica> consultas = consulRepo.findByPacienteIdPersona(dni);
 
-		  // Si la consulta tiene un paquete, obtener los servicios médicos
-		  if (consulta.getPaquete() != null && consulta.getPaquete().getServicios_medicos() != null) {
-			  
-		  List<ConsultaPaqueteDTO> servicios = consulta.getPaquete().getServicios_medicos().stream()
-				  
-		      .map(servicio -> new ConsultaPaqueteDTO(servicio.getNombre(), servicio.getDescripcion()))
-		      .collect(Collectors.toList());
-		      dto.setNombrePaquetes(servicios);
-		      }
-		            return dto;
-		      })
-		        .collect(Collectors.toList());
+	    // 2. Mapear las consultas a HistorialDTO
+	    return consultas.stream()
+	            .map(consulta -> {
+	                // 3. Crear HistorialDTO
+	                HistorialDTO dto = new HistorialDTO(
+	                        consulta.getFechaTurno(),
+	                        consulta.getPagadoONo(),
+	                        consulta.getMedico().getNombre(), 
+	                        consulta.getMedico().getApellido(),
+	                        consulta.getPaciente().getNombre(),
+	                        consulta.getPaciente().getApellido(), 
+	                        new ArrayList<>()
+	                );
+
+	                // 4. Obtener los servicios médicos de la consulta (si existen)
+	                if (consulta.getServicio() != null) {
+	                    List<ConsultaPaqueteDTO> servicios = new ArrayList<>();
+	                    ConsultaPaqueteDTO servicioDTO = new ConsultaPaqueteDTO(
+	                            consulta.getServicio().getNombre(),
+	                            consulta.getServicio().getDescripcion()
+	                    );
+	                    servicios.add(servicioDTO);
+	                    dto.setNombrePaquetes(servicios);
+	                }
+
+	                return dto;
+	            })
+	            .collect(Collectors.toList());
 		}
 	}
 			

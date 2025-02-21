@@ -50,5 +50,8 @@ public class Consulta_medica {
     @ManyToOne
     @JoinColumn(name = "id_medico", referencedColumnName = "id_persona", nullable = false)
     private Medico medico;
-
+    
+    @ManyToOne
+    @JoinColumn(name = "id_servicio", referencedColumnName = "codigo_servicio", nullable = false)
+    private Servicio_medico servicio;
 }

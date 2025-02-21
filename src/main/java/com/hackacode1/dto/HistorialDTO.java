@@ -14,9 +14,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class HistorialDTO {
 	private LocalDate fechaConsulta;
-    private Double montoTotal;
     private String pagadoONo;
     private String nombreMedico;
+    private String apellidoMedico;
     private String nombrePaciente;
+    private String apellidoPaciente;
     private List<ConsultaPaqueteDTO> nombrePaquetes;
 }
