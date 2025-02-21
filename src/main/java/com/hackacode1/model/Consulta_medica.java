@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,10 +29,8 @@ public class Consulta_medica {
 	private UUID idConsultaMedica;
 
     @Column(nullable = false)
-    @JsonProperty("fechaTurno")
     private LocalDate fechaTurno;
     
-    @JsonProperty("horaTurno")
     @Column(nullable= true)
     private LocalTime horaTurno;
  

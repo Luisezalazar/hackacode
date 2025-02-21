@@ -41,68 +41,48 @@ public class Paquete_servicioService implements IPaquete_servicioService{
 	@Override
 	public void savePaquete_servicio(Paquete_servicio paquete) {
 		
-		// 1. Obtener los IDs de los servicios asociados a las consultas médicas
-		List<UUID> listaUUID = paquete.getConsultas().stream()
-		     .map(consulta -> consulta.getServicio().getCodigo_servicio()) // Obtener el ID del servicio directamente
-		     .collect(Collectors.toList());
-
-		//2. Verificar si todos los servicios existen en la base de datos
-	    List<Servicio_medico> servicios = servRepo.findAllById(listaUUID);
-
-	    if (servicios.size() != servicios.size()) {
-	        throw new EntityNotFoundException("No se encontraron todos los servicios especificados.");
-	    }
-	    
-	   //3. Obtener el paciente asociado al paquete
-	    Paciente paciente = pacienRepo.findById(paquete.getConsultas().get(0).getPaciente().getId_persona())
-	            .orElseThrow(() -> new EntityNotFoundException("No se encontró al paciente asociado al paquete"));
-	    		
-	    
-	    List<Consulta_medica> nuevasConsultas = servicios.stream()
-	            .map(servicio -> {
-	            	//Se copian los atributos para tenerlos
-	                Consulta_medica nuevaConsulta = new Consulta_medica();
-	                nuevaConsulta.setServicio(servicio);
-	                return nuevaConsulta;
-	            })
+		 // 1. Obtener los IDs de los servicios asociados a las consultas médicas
+	    List<UUID> listaUUID = paquete.getConsultas().stream()
+	            .map(consulta -> consulta.getServicio().getCodigo_servicio())
 	            .collect(Collectors.toList());
 
-	    paquete.setConsultas(nuevasConsultas); // Reemplazar la lista de consultas con la nueva lista
-		
-	    
-	   //5. Validar que siempre haya al menos un servicio
+	    // 2. Verificar si todos los servicios existen en la base de datos
+	    List<Servicio_medico> servicios = servRepo.findAllById(listaUUID);
+
+	    if (servicios.size() != listaUUID.size()) {
+	        throw new EntityNotFoundException("No se encontraron todos los servicios especificados.");
+	    }
+
+	    // 3. Obtener el paciente asociado al paquete
+	    Paciente paciente = pacienRepo.findById(paquete.getConsultas().get(0).getPaciente().getId_persona())
+	            .orElseThrow(() -> new EntityNotFoundException("No se encontró al paciente asociado al paquete"));
+
+	    // 6. Validar que siempre haya al menos un servicio
 	    if (paquete.getConsultas() == null || paquete.getConsultas().isEmpty()) {
 	        throw new EntityNotFoundException("No se encontraron servicios médicos.");
 	    }
-	    
-		//Validar que siempre haya un servicio
-		if(paquete.getConsultas() == null) {
-			throw new EntityNotFoundException("No se encontraron servicios medicos");
-		}
-		
-		//Validar que el paquete tenga al menos 2 servicios
+
+	    // 7. Calcular el precio del paquete con descuentos
+	    double total;
 	    if (paquete.getConsultas().size() >= 2) {
-	    	Double suma = servicios.stream()
-					.mapToDouble(Servicio_medico::getPrecio)
-					.sum();
-			
-			Double total= suma*0.85; //Descuento base del 15%
-			
-			if(paciente.getObraSocial()==true) {
-				total *=0.80;//Descuento del 20%
-			}
-			paquete.setPrecioPaquete(total);
+	        total = servicios.stream()
+	                .mapToDouble(Servicio_medico::getPrecio)
+	                .sum() * 0.85; // Descuento base del 15%
+	        if (paciente.getObraSocial()) {
+	            total *= 0.80; // Descuento adicional del 20%
+	        }
+	    } else {
+	        total = paquete.getConsultas().get(0).getServicio().getPrecio();
+	        if (paciente.getObraSocial()) {
+	            total *= 0.80; // Descuento del 20%
+	        }
 	    }
-	    if(paquete.getConsultas().size() == 1) {
-			Double unidad = paquete.getConsultas().get(0).getServicio().getPrecio();
-			if(paciente.getObraSocial()==true){
-				unidad *=0.80;//Descuento del 20%
-			}
-			paquete.setPrecioPaquete(unidad);
-		}
-		
-		paqueteRepo.save(paquete);
-		
+
+	    // 8. Asignar el precio calculado al paquete
+	    paquete.setPrecioPaquete(total);
+
+	    // 9. Guardar el paquete actualizado
+	     paqueteRepo.save(paquete); // Devuelve el paquete guardado
 	}
 
 	@Override

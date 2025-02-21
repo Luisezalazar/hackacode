@@ -24,7 +24,6 @@ import lombok.Setter;
 public class Paquete_servicio {
 	
 	@Id
-	@GeneratedValue(generator="UUID")
 	private UUID codigo_paquete;
 	
 	@Column(nullable = false)
