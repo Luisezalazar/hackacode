@@ -57,31 +57,23 @@ public class Paquete_servicioService implements IPaquete_servicioService{
 	    Paciente paciente = pacienRepo.findById(paquete.getConsultas().get(0).getPaciente().getId_persona())
 	            .orElseThrow(() -> new EntityNotFoundException("No se encontró al paciente asociado al paquete"));
 
-	    // 6. Validar que siempre haya al menos un servicio
+	    // 4. Validar que siempre haya al menos un servicio
 	    if (paquete.getConsultas() == null || paquete.getConsultas().isEmpty()) {
 	        throw new EntityNotFoundException("No se encontraron servicios médicos.");
 	    }
 
-	    // 7. Calcular el precio del paquete con descuentos
+	    // 5. Calcular el precio del paquete con descuentos
 	    double total;
-	    if (paquete.getConsultas().size() >= 2) {
 	        total = servicios.stream()
 	                .mapToDouble(Servicio_medico::getPrecio)
-	                .sum() * 0.85; // Descuento base del 15%
-	        if (paciente.getObraSocial()) {
-	            total *= 0.80; // Descuento adicional del 20%
-	        }
-	    } else {
-	        total = paquete.getConsultas().get(0).getServicio().getPrecio();
-	        if (paciente.getObraSocial()) {
-	            total *= 0.80; // Descuento del 20%
-	        }
-	    }
+	                .sum();  // Descuento base del 15%
+	       if(paquete.getConsultas().size() >=2) total *=0.85;
+	       if(paciente.getObraSocial()) total *=0.80;
 
-	    // 8. Asignar el precio calculado al paquete
+	    // 6. Asignar el precio calculado al paquete
 	    paquete.setPrecioPaquete(total);
 
-	    // 9. Guardar el paquete actualizado
+	    // 7. Guardar el paquete actualizado
 	     paqueteRepo.save(paquete); // Devuelve el paquete guardado
 	}
 
