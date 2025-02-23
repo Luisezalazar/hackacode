@@ -26,6 +26,12 @@ public class Paquete_servicio {
 	private UUID codigo_paquete;
 	
 	@Column(nullable = false)
+	private String nombreSolicitante;
+	
+	@Column(nullable = false)
+	private String dniSolicitante;
+	
+	@Column(nullable = false)
 	private Double precioPaquete;
 	
 	@Column(nullable = false)

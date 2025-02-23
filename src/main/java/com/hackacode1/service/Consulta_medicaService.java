@@ -139,48 +139,6 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	}
 
 	@Override
-	public List<HistorialDTO> getConsultasPorPaciente() {
-		 List<Consulta_medica> listaConsultas = consulRepo.findAll();
-		 List<HistorialDTO> histo = new ArrayList<>();
-
-		 for (Consulta_medica consul : listaConsultas) {
-
-		     HistorialDTO dto = new HistorialDTO();
-		     dto.setFechaTurno(consul.getFechaTurno());
-		     dto.setPagadoONo(consul.getPagadoONo());
-
-		 // Manejo de Medico
-		   if (consul.getMedico() != null) {
-		       dto.setNombreMedico(consul.getMedico().getNombre());
-		   } else {
-		       dto.setNombreMedico("Médico no encontrado"); // O lanza una excepción
-		   }
-
-		 // Manejo de Servicios Médicos
-		   List<ConsultaPaqueteDTO> listaPaquetes = new ArrayList<>();
-		   if (consul.getServicio() != null) {
-		      ConsultaPaqueteDTO paqdto = new ConsultaPaqueteDTO();
-		      paqdto.setNombre(consul.getServicio().getNombre());
-		      paqdto.setDescripcion(consul.getServicio().getDescripcion());
-		      listaPaquetes.add(paqdto);
-		        }
-
-		        dto.setNombrePaquetes(listaPaquetes);
-
-		   // Manejo de Paciente
-		   if (consul.getPaciente() != null) {
-		       dto.setNombrePaciente(consul.getPaciente().getNombre());
-		    } else {
-		      dto.setNombrePaciente("Paciente no encontrado"); // O lanza una excepción
-		    }
-
-		    histo.add(dto);
-		    }
-		    return histo;
-		
-		}
-
-	@Override
 	public List<HistorialDTO> getConsultasPorPacientes(String dni) {
 		// 1. Buscar las consultas médicas por DNI del paciente
 	    List<Consulta_medica> consultas = consulRepo.findByPacienteIdPersona(dni);
@@ -209,21 +167,13 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	                		
 	                		consulta.getPagadoONo(),
 	                		
-	                        new ArrayList<>()
+	                        consulta.getServicio().getNombre(),
+	                        consulta.getServicio().getDescripcion(),
+	                        consulta.getServicio().getPrecio(),
+	                        consulta.getServicio().getDuracion()
 	                );
 
-	                // 4. Obtener los servicios médicos de la consulta (si existen)
-	                if (consulta.getServicio() != null) {
-	                    List<ConsultaPaqueteDTO> servicios = new ArrayList<>();
-	                    ConsultaPaqueteDTO servicioDTO = new ConsultaPaqueteDTO(
-	                            consulta.getServicio().getNombre(),
-	                            consulta.getServicio().getDescripcion(),
-	                            consulta.getServicio().getPrecio(),
-	                            consulta.getServicio().getDuracion()
-	                    );
-	                    servicios.add(servicioDTO);
-	                    dto.setNombrePaquetes(servicios);
-	                }
+	                
 
 	                return dto;
 	            })

@@ -16,11 +16,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class HistorialDTO {
 	
-	
-    public HistorialDTO(String nombre, String apellido, String dni, String especialidadMedica2, LocalDate fechaTurno2,
+
+
+
+
+	public HistorialDTO(String nombre, String apellido, String dni, String especialidadMedica2, LocalDate fechaTurno2,
 			LocalTime horaTurno2, String nombre2, String apellido2, String genero2, LocalDate fechaNac2, String dni2,
-			String telefono2, String email2, String direccion2, String pagadoONo2,
-			ArrayList<ConsultaPaqueteDTO> nombrePaquetes2) {
+			String telefono2, String email2, String direccion2, String pagadoONo2, String nombre3, String descripcion2,
+			Double precio2, LocalTime duracion2) {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -46,8 +49,8 @@ public class HistorialDTO {
     private String email;
     private String direccion;
     
-    
-    
-    
-    private List<ConsultaPaqueteDTO> nombrePaquetes;
+    private String nombreServicio;
+    private String descripcion;
+    private Double precio;
+    private LocalTime Duracion;
 }
