@@ -72,7 +72,7 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 			 List<ConsultaPaqueteDTO> listaPaquetes = new ArrayList<>();
 		        if (consul.getServicio() != null) { // Verifica solo el servicio
 		            ConsultaPaqueteDTO paqdto = new ConsultaPaqueteDTO();
-		            paqdto.setNombreServicio(consul.getServicio().getNombre());
+		            paqdto.setNombre(consul.getServicio().getNombre());
 		            paqdto.setDescripcion(consul.getServicio().getDescripcion());
 		            listaPaquetes.add(paqdto);
 		        }
@@ -146,7 +146,7 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		 for (Consulta_medica consul : listaConsultas) {
 
 		     HistorialDTO dto = new HistorialDTO();
-		     dto.setFechaConsulta(consul.getFechaTurno());
+		     dto.setFechaTurno(consul.getFechaTurno());
 		     dto.setPagadoONo(consul.getPagadoONo());
 
 		 // Manejo de Medico
@@ -160,7 +160,7 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		   List<ConsultaPaqueteDTO> listaPaquetes = new ArrayList<>();
 		   if (consul.getServicio() != null) {
 		      ConsultaPaqueteDTO paqdto = new ConsultaPaqueteDTO();
-		      paqdto.setNombreServicio(consul.getServicio().getNombre());
+		      paqdto.setNombre(consul.getServicio().getNombre());
 		      paqdto.setDescripcion(consul.getServicio().getDescripcion());
 		      listaPaquetes.add(paqdto);
 		        }
@@ -190,12 +190,25 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	            .map(consulta -> {
 	                // 3. Crear HistorialDTO
 	                HistorialDTO dto = new HistorialDTO(
-	                        consulta.getFechaTurno(),
-	                        consulta.getPagadoONo(),
-	                        consulta.getMedico().getNombre(), 
-	                        consulta.getMedico().getApellido(),
-	                        consulta.getPaciente().getNombre(),
-	                        consulta.getPaciente().getApellido(), 
+	                		
+	                		consulta.getMedico().getNombre(),
+	                		consulta.getMedico().getApellido(),
+	                		consulta.getMedico().getDni(),
+	                		consulta.getMedico().getEspecialidadMedica(),
+	                		consulta.getFechaTurno(),
+	                		consulta.getHoraTurno(),
+	                        
+	                		consulta.getPaciente().getNombre(),
+	                		consulta.getPaciente().getApellido(),
+	                		consulta.getPaciente().getGenero(),
+	                		consulta.getPaciente().getFechaNac(),
+	                		consulta.getPaciente().getDni(),
+	                		consulta.getPaciente().getTelefono(),
+	                		consulta.getPaciente().getEmail(),
+	                		consulta.getPaciente().getDireccion(),
+	                		
+	                		consulta.getPagadoONo(),
+	                		
 	                        new ArrayList<>()
 	                );
 
@@ -204,7 +217,9 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	                    List<ConsultaPaqueteDTO> servicios = new ArrayList<>();
 	                    ConsultaPaqueteDTO servicioDTO = new ConsultaPaqueteDTO(
 	                            consulta.getServicio().getNombre(),
-	                            consulta.getServicio().getDescripcion()
+	                            consulta.getServicio().getDescripcion(),
+	                            consulta.getServicio().getPrecio(),
+	                            consulta.getServicio().getDuracion()
 	                    );
 	                    servicios.add(servicioDTO);
 	                    dto.setNombrePaquetes(servicios);
