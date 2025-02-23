@@ -1,5 +1,6 @@
 package com.hackacode1.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -72,6 +73,7 @@ public class Paquete_servicioService implements IPaquete_servicioService{
 
 	    // 6. Asignar el precio calculado al paquete
 	    paquete.setPrecioPaquete(total);
+	    paquete.setFechaCreacion(LocalDate.now());
 
 	    // 7. Guardar el paquete actualizado
 	     paqueteRepo.save(paquete); // Devuelve el paquete guardado

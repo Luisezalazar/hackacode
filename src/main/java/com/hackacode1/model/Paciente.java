@@ -16,5 +16,7 @@ import lombok.Setter;
 public class Paciente extends Persona{
 	@Column(nullable = false)
 	private Boolean obraSocial;
-
+	
+	@Column(nullable = false)
+	private String genero;
 }

@@ -14,4 +14,7 @@ import com.hackacode1.model.Consulta_medica;
 public interface IConsulta_medicaRepository extends JpaRepository<Consulta_medica, UUID>{
 	@Query("SELECT c FROM Consulta_medica c WHERE c.paciente.dni = :dni")
     List<Consulta_medica> findByPacienteIdPersona(@Param("dni") String dni);
+    
+    @Query("SELECT c FROM Consulta_medica c WHERE c.medico.id_persona = :idMedico")
+    List<Consulta_medica> findByMedicoIdPersona(@Param("idMedico") UUID idMedico);
 }

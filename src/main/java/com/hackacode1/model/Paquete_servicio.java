@@ -1,13 +1,12 @@
 package com.hackacode1.model;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -28,6 +27,9 @@ public class Paquete_servicio {
 	
 	@Column(nullable = false)
 	private Double precioPaquete;
+	
+	@Column(nullable = false)
+	private LocalDate fechaCreacion;
 
     @OneToMany(cascade=CascadeType.ALL)
     private List<Consulta_medica> consultas;

@@ -214,6 +214,13 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	            })
 	            .collect(Collectors.toList());
 		}
+
+
+	@Override
+	public List<Consulta_medica> getConsultasPorMedicos(UUID idMedico) {
+		return consulRepo.findByMedicoIdPersona(idMedico);
+		
+	}
 	}
 			
 		

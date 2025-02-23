@@ -33,5 +33,7 @@ public interface IConsulta_medicaService {
 	
 	public List<HistorialDTO> getConsultasPorPacientes(String dni);
 	
+	public List<Consulta_medica> getConsultasPorMedicos(UUID id);
+	
 	
 }
