@@ -13,8 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ServicioConteoDTO {
 	
-	private String idServicio;
-	private String servicio;
+	private String id;
+	private String label;
 	private Long value;
 	
 }

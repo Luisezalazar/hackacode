@@ -188,17 +188,17 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	public GraficoGeneroDTO getGraficoGenero() {
 		List<Consulta_medica> consultas = consulRepo.findAll();
 		
-		Long masculino = 0L;
-		Long femenino = 0L;
+		Long hombre = 0L;
+		Long mujer = 0L;
 		Long intersexual=0L;
 		
 		for(Consulta_medica consulta: consultas) {
 			if(consulta.getPaciente() != null && consulta.getPaciente().getGenero() != null) {
 				String genero = consulta.getPaciente().getGenero().toLowerCase();
 				if(genero.equals("masculino")) {
-					masculino++;
+					hombre++;
 				} else if (genero.equals("femenino")) {
-					femenino++;
+					mujer++;
 				} else if (genero.equals("intersexual")) {
 					intersexual++;
 			}
@@ -207,8 +207,8 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		
 		GraficoGeneroDTO dto = new GraficoGeneroDTO();
 		dto.setSexo("Sexo");
-		dto.setMasculino(masculino);
-		dto.setFemenino(femenino);
+		dto.setMasculino(hombre);
+		dto.setFemenino(mujer);
 		dto.setIntersexual(intersexual);
 		return dto;
 		
