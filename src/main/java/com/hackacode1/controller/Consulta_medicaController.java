@@ -32,6 +32,10 @@ public class Consulta_medicaController {
 	public List<CalendarioDTO> getConsultaMedica(){
 		return consulServ.getCalendario();
 	}
+	@GetMapping("/traer/{id}")
+	public List<Consulta_medica> getConsultaMedico(@PathVariable UUID id){
+		return consulServ.getConsultasPorMedicos(id);
+	}
 	
 	@GetMapping("/traer")
 	public List<ConsultasDTO> getConsultas(){

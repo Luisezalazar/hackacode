@@ -12,6 +12,8 @@ public interface IPaquete_servicioService {
 	
 	public Paquete_servicio findPaquete_servicio(UUID id);
 	
+	public List<Paquete_servicio> findPaqueteDni(String dni);
+	
 	public void deletePaquete_servicio(UUID id);
 	
 	public Paquete_servicio replaceServicio(UUID paqueteID, UUID deleteServicio, UUID newServicio);

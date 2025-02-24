@@ -29,6 +29,11 @@ public class Paquete_servicioController {
 		return listaPaquetes;
 	}
 	
+	@GetMapping("/traer/{dniSolicitante}")
+	public List<Paquete_servicio> traerPaqueteDni(@PathVariable String dniSolicitante){
+		return paqueteServ.findPaqueteDni(dniSolicitante);
+	}
+	
 	@GetMapping("/traer/{id}")
 	public Paquete_servicio traerPaquete(@PathVariable UUID id) {
 		return paqueteServ.findPaquete_servicio(id);

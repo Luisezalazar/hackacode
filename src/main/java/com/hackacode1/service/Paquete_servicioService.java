@@ -192,4 +192,9 @@ public class Paquete_servicioService implements IPaquete_servicioService{
 
 
 }
+
+	@Override
+	public List<Paquete_servicio> findPaqueteDni(String dni) {
+		return paqueteRepo.findByDniSolicitante(dni);
+	}
 }
