@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.hackacode1.dto.ConsultaPaqueteDTO;
 import com.hackacode1.dto.ConsultasDTO;
 import com.hackacode1.dto.GraficoGeneroDTO;
 import com.hackacode1.dto.HistorialDTO;
+import com.hackacode1.dto.ServicioConteoDTO;
 import com.hackacode1.model.Consulta_medica;
 import com.hackacode1.repository.IConsulta_medicaRepository;
 import com.hackacode1.repository.IMedicoRepository;
@@ -217,6 +219,27 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		dto.setIntersexual(intersexual);
 		return dto;
 		
+	}
+
+
+	@Override
+	public List<ServicioConteoDTO> getCountServicec() {
+		List<Consulta_medica> consultas = consulRepo.findAll();
+		Map<String, Long> conteoServicios = consultas.stream()
+	            .filter(consulta -> consulta.getServicio() != null)
+	            .collect(Collectors.groupingBy(consulta -> consulta.getServicio().getNombre(), Collectors.counting()));
+
+	    List<ServicioConteoDTO> resultado = new ArrayList<>();
+	    int contador = 1; // Para generar IDs únicos
+
+	    for (Map.Entry<String, Long> entry : conteoServicios.entrySet()) {
+	        String nombreServicio = entry.getKey();
+	        Long conteo = entry.getValue();
+	        resultado.add(new ServicioConteoDTO("Servicio " + contador, nombreServicio, conteo));
+	        contador++;
+	    }
+
+	    return resultado;
 	}
 }
 

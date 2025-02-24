@@ -50,10 +50,6 @@ public class Paquete_servicioService implements IPaquete_servicioService{
 	    // 2. Verificar si todos los servicios existen en la base de datos
 	    List<Servicio_medico> servicios = servRepo.findAllById(listaUUID);
 
-	    if (servicios.size() != listaUUID.size()) {
-	        throw new EntityNotFoundException("No se encontraron todos los servicios especificados.");
-	    }
-
 	    // 3. Obtener el paciente asociado al paquete
 	    Paciente paciente = pacienRepo.findById(paquete.getConsultas().get(0).getPaciente().getId_persona())
 	            .orElseThrow(() -> new EntityNotFoundException("No se encontró al paciente asociado al paquete"));

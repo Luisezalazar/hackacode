@@ -9,6 +9,7 @@ import com.hackacode1.dto.CalendarioDTO;
 import com.hackacode1.dto.ConsultasDTO;
 import com.hackacode1.dto.GraficoGeneroDTO;
 import com.hackacode1.dto.HistorialDTO;
+import com.hackacode1.dto.ServicioConteoDTO;
 import com.hackacode1.model.Consulta_medica;
 
 
@@ -35,5 +36,7 @@ public interface IConsulta_medicaService {
 	public List<Consulta_medica> getConsultasPorMedicos(UUID id);
 	
 	public GraficoGeneroDTO getGraficoGenero();
+	
+	public List<ServicioConteoDTO> getCountServicec();
 	
 }

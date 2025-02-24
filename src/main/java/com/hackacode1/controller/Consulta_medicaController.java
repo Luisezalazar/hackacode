@@ -19,6 +19,7 @@ import com.hackacode1.dto.CalendarioDTO;
 import com.hackacode1.dto.ConsultasDTO;
 import com.hackacode1.dto.GraficoGeneroDTO;
 import com.hackacode1.dto.HistorialDTO;
+import com.hackacode1.dto.ServicioConteoDTO;
 import com.hackacode1.model.Consulta_medica;
 import com.hackacode1.service.IConsulta_medicaService;
 
@@ -90,6 +91,11 @@ public class Consulta_medicaController {
 	@GetMapping("/graficogenero")
 	public GraficoGeneroDTO getGraficoGenero() {
 		return consulServ.getGraficoGenero();
+	}
+	
+	@GetMapping("/conteoServicios")
+	public List<ServicioConteoDTO> getConteoServicio() {
+		return consulServ.getCountServicec();
 	}
 }
 
