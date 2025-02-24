@@ -3,6 +3,7 @@ package com.hackacode1.service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import com.hackacode1.dto.ConsultaPaqueteDTO;
 import com.hackacode1.dto.ConsultasDTO;
 import com.hackacode1.dto.GraficoGeneroDTO;
 import com.hackacode1.dto.HistorialDTO;
+import com.hackacode1.dto.MesConteoDTO;
 import com.hackacode1.dto.ServicioConteoDTO;
 import com.hackacode1.model.Consulta_medica;
 import com.hackacode1.repository.IConsulta_medicaRepository;
@@ -148,39 +150,30 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 
 	    // 2. Mapear las consultas a HistorialDTO
 	    return consultas.stream()
-	            .map(consulta -> {
-	                // 3. Crear HistorialDTO
-	                HistorialDTO dto = new HistorialDTO(
-	                		
-	                		consulta.getMedico().getNombre(),
-	                		consulta.getMedico().getApellido(),
-	                		consulta.getMedico().getDni(),
-	                		consulta.getMedico().getEspecialidadMedica(),
-	                		consulta.getFechaTurno(),
-	                		consulta.getHoraTurno(),
-	                        
-	                		consulta.getPaciente().getNombre(),
-	                		consulta.getPaciente().getApellido(),
-	                		consulta.getPaciente().getGenero(),
-	                		consulta.getPaciente().getFechaNac(),
-	                		consulta.getPaciente().getDni(),
-	                		consulta.getPaciente().getTelefono(),
-	                		consulta.getPaciente().getEmail(),
-	                		consulta.getPaciente().getDireccion(),
-	                		
-	                		consulta.getPagadoONo(),
-	                		
-	                        consulta.getServicio().getNombre(),
-	                        consulta.getServicio().getDescripcion(),
-	                        consulta.getServicio().getPrecio(),
-	                        consulta.getServicio().getDuracion()
-	                );
+	    	    .map(consulta -> new HistorialDTO(
+	    	        consulta.getPagadoONo(),
+	    	        consulta.getMedico().getNombre(),
+	    	        consulta.getMedico().getApellido(),
+	    	        consulta.getMedico().getEspecialidadMedica(),
+	    	        consulta.getMedico().getDni(),
+	    	        consulta.getFechaTurno(),
+	    	        consulta.getHoraTurno(),
+	    	        consulta.getPaciente().getNombre(),
+	    	        consulta.getPaciente().getApellido(),
+	    	        consulta.getPaciente().getGenero(),
+	    	        consulta.getPaciente().getDni(),
+	    	        consulta.getPaciente().getFechaNac(),
+	    	        
+	    	        consulta.getPaciente().getTelefono(),
+	    	        consulta.getPaciente().getEmail(),
+	    	        consulta.getPaciente().getDireccion(),
+	    	        consulta.getServicio().getNombre(),
+	    	        consulta.getServicio().getDescripcion(),
+	    	        consulta.getServicio().getPrecio(),
+	    	        consulta.getServicio().getDuracion()
+	    	    ))
+	    	    .collect(Collectors.toList());
 
-	                
-
-	                return dto;
-	            })
-	            .collect(Collectors.toList());
 		}
 
 
@@ -240,6 +233,49 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	    }
 
 	    return resultado;
+	}
+
+
+	@Override
+	public List<MesConteoDTO> getMesConteo() {
+		List<Consulta_medica> consultas = consulRepo.findAll();
+		Map<String, Long> conteoServiciosPorMes = consultas.stream()
+	            .filter(consulta -> consulta.getServicio() != null && consulta.getFechaTurno() != null)
+	            .collect(Collectors.groupingBy(consulta -> obtenerNombreMes(consulta.getFechaTurno().getMonth()), Collectors.counting()));
+
+	    return conteoServiciosPorMes.entrySet().stream()
+	            .map(entry -> new MesConteoDTO(entry.getKey(), entry.getValue()))
+	            .collect(Collectors.toList());}
+	@Override
+	public String obtenerNombreMes(Month mes) {
+	        switch (mes) {
+	            case JANUARY:
+	                return "Enero";
+	            case FEBRUARY:
+	                return "Febrero";
+	            case MARCH:
+	                return "Marzo";
+	            case APRIL:
+	                return "Abril";
+	            case MAY:
+	                return "Mayo";
+	            case JUNE:
+	                return "Junio";
+	            case JULY:
+	                return "Julio";
+	            case AUGUST:
+	                return "Agosto";
+	            case SEPTEMBER:
+	                return "Septiembre";
+	            case OCTOBER:
+	                return "Octubre";
+	            case NOVEMBER:
+	                return "Noviembre";
+	            case DECEMBER:
+	                return "Diciembre";
+	            default:
+	                return "Mes inválido";
+	        }
 	}
 }
 

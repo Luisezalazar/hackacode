@@ -2,6 +2,7 @@ package com.hackacode1.service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ import com.hackacode1.dto.CalendarioDTO;
 import com.hackacode1.dto.ConsultasDTO;
 import com.hackacode1.dto.GraficoGeneroDTO;
 import com.hackacode1.dto.HistorialDTO;
+import com.hackacode1.dto.MesConteoDTO;
 import com.hackacode1.dto.ServicioConteoDTO;
 import com.hackacode1.model.Consulta_medica;
 
@@ -39,4 +41,7 @@ public interface IConsulta_medicaService {
 	
 	public List<ServicioConteoDTO> getCountServicec();
 	
+	public List<MesConteoDTO> getMesConteo();
+	
+	public String obtenerNombreMes(Month mes);
 }
