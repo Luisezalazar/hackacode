@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.hackacode1.dto.CalendarioDTO;
 import com.hackacode1.dto.ConsultasDTO;
+import com.hackacode1.dto.GraficoGeneroDTO;
 import com.hackacode1.dto.HistorialDTO;
 import com.hackacode1.model.Consulta_medica;
 import com.hackacode1.service.IConsulta_medicaService;
@@ -32,9 +33,9 @@ public class Consulta_medicaController {
 	public List<CalendarioDTO> getConsultaMedica(){
 		return consulServ.getCalendario();
 	}
-	@GetMapping("/traer/{id}")
-	public List<Consulta_medica> getConsultaMedico(@PathVariable UUID id){
-		return consulServ.getConsultasPorMedicos(id);
+	@GetMapping("/traer/medico/{idMedico}")
+	public List<Consulta_medica> getConsultaMedico(@PathVariable UUID idMedico){
+		return consulServ.getConsultasPorMedicos(idMedico);
 	}
 	
 	@GetMapping("/traer")
@@ -86,5 +87,9 @@ public class Consulta_medicaController {
 		return consulServ.getConsultasPorPacientes(dni);
 	}
 	
+	@GetMapping("/graficogenero")
+	public GraficoGeneroDTO getGraficoGenero() {
+		return consulServ.getGraficoGenero();
+	}
 }
 

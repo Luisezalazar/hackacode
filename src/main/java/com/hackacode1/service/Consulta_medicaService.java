@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.hackacode1.dto.CalendarioDTO;
 import com.hackacode1.dto.ConsultaPaqueteDTO;
 import com.hackacode1.dto.ConsultasDTO;
+import com.hackacode1.dto.GraficoGeneroDTO;
 import com.hackacode1.dto.HistorialDTO;
 import com.hackacode1.model.Consulta_medica;
 import com.hackacode1.repository.IConsulta_medicaRepository;
@@ -186,7 +187,41 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		return consulRepo.findByMedicoIdPersona(idMedico);
 		
 	}
+
+
+	@Override
+	public GraficoGeneroDTO getGraficoGenero() {
+		List<Consulta_medica> consultas = consulRepo.findAll();
+		
+		Long masculino = 0L;
+		Long femenino = 0L;
+		Long intersexual=0L;
+		
+		for(Consulta_medica consulta: consultas) {
+			if(consulta.getPaciente() != null && consulta.getPaciente().getGenero() != null) {
+				String genero = consulta.getPaciente().getGenero().toLowerCase();
+				if(genero.equals("masculino")) {
+					masculino++;
+				} else if (genero.equals("femenino")) {
+					femenino++;
+				} else if (genero.equals("intersexual")) {
+					intersexual++;
+			}
+		}
 	}
+		
+		GraficoGeneroDTO dto = new GraficoGeneroDTO();
+		dto.setSexo("Sexo");
+		dto.setMasculino(masculino);
+		dto.setFemenino(femenino);
+		dto.setIntersexual(intersexual);
+		return dto;
+		
+	}
+}
+
+	
+	
 			
 		
 		
