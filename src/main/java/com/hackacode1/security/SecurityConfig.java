@@ -43,7 +43,15 @@ public class SecurityConfig {
 				.cors(Customizer.withDefaults())
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/personal/login").permitAll()
-						.anyRequest().permitAll())
+						.requestMatchers("/paquete_servicio/crear").permitAll()
+						.requestMatchers("/paciente/crear").permitAll()
+						.requestMatchers("/paciente/buscar/**").permitAll()
+						.requestMatchers("/medico/servicio_con_medicos/**").permitAll()
+						.requestMatchers("/consulta_medica/traer/medico/**").permitAll()
+						.requestMatchers("/consulta_medica/historial/**").permitAll()
+						.requestMatchers("/servicio_medico/traer").permitAll()
+						.requestMatchers("/paciente/traer/**").permitAll()
+						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.httpBasic(Customizer.withDefaults())
 				.build();

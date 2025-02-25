@@ -195,7 +195,6 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		for(Consulta_medica consulta: consultas) {
 			if(consulta.getPaciente() != null && consulta.getPaciente().getGenero() != null) {
 				String genero = consulta.getPaciente().getGenero().toLowerCase();
-				System.out.println("genero: " + genero);
 				if(genero.equals("hombre")) {
 					hombre++;
 				} else if (genero.equals("mujer")) {
