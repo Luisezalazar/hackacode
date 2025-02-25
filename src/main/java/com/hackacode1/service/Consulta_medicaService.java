@@ -195,6 +195,7 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 		for(Consulta_medica consulta: consultas) {
 			if(consulta.getPaciente() != null && consulta.getPaciente().getGenero() != null) {
 				String genero = consulta.getPaciente().getGenero().toLowerCase();
+				System.out.println("genero: " + genero);
 				if(genero.equals("hombre")) {
 					hombre++;
 				} else if (genero.equals("mujer")) {
@@ -228,7 +229,7 @@ public class Consulta_medicaService implements IConsulta_medicaService{
 	    for (Map.Entry<String, Long> entry : conteoServicios.entrySet()) {
 	        String nombreServicio = entry.getKey();
 	        Long conteo = entry.getValue();
-	        resultado.add(new ServicioConteoDTO("Servicio " + contador, nombreServicio, conteo));
+	        resultado.add(new ServicioConteoDTO(nombreServicio, nombreServicio, conteo));
 	        contador++;
 	    }
 
