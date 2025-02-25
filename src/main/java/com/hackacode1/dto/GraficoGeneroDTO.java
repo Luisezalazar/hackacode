@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class GraficoGeneroDTO {
 	private String sexo;
-	private Long masculino;
-	private Long femenino;
-	private Long intersexual;
+	private Integer hombre;
+	private Integer mujer;
+	private Integer intersexual;
 }
